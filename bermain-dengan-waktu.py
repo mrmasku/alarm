@@ -15,11 +15,13 @@ class Alarm:
         self.jam_awal = self.waktu_sekarang.hour
         self.menit_awal = self.waktu_sekarang.minute
 
+        Alarm.jumlah_alarm += 1
+        self.nama = Alarm.alarm_name + str(Alarm.jumlah_alarm)
+
+        input_jam, input_menit = self.menanyakan_waktu()
         self.jam_akhir = input_jam
         self.menit_akhir = input_menit
 
-        Alarm.jumlah_alarm += 1
-        self.nama = Alarm.alarm_name + str(Alarm.jumlah_alarm)
         print('berhasil dibuat')
     
     def waktu_berjalan(self, pengaturan=False):
@@ -41,7 +43,15 @@ class Alarm:
                 time.sleep(1)
             
             os.system('clear')
-            print(self.nama + ' Selesai')
+            pesan = self.nama + ' Selesai'
+            os.system('notify-send ' + '"{}"'.format(pesan))
+    
+    def menanyakan_waktu(self):
+
+        jam = int(input(self.nama + ' jam : '))
+        menit = int(input(self.nama + ' menit : '))
+
+        return [jam, menit]
 
 alarm1 = Alarm(13, 50)
 alarm2 = Alarm(14, 0)
